@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
+#include <windows.h>
 #include "agenda.h"
 
 int strings_iguais_auxiliar(char *s1,char *s2) {

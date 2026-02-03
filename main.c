@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
+#include <windows.h>
 #include "agenda.h"
 
 int main(void) {
@@ -38,10 +39,11 @@ int main(void) {
         printf("=========================Agenda Plus=======================\n");
         printf("[1] adicionar contato\n");
         printf("[2] deletar contato\n");
-        printf("[3] adicionar atividade\n");
-        printf("[4] deletar atividade\n");
-        printf("[5] consulta rapida\n");
-        printf("[6] sair\n");
+        printf("[3] ver contatos");
+        printf("[4] adicionar atividade\n");
+        printf("[5] deletar atividade\n");
+        printf("[6] consulta rapida\n");
+        printf("[7] sair\n");
         scanf("%d",&opcao);
         getchar();
         switch (opcao) {
@@ -90,6 +92,16 @@ int main(void) {
                 break;
             }
             case 3: {
+                if(quantidade_contatos==0) {
+                    printf("nao ha registro de contatos no sistema!\n");
+                } else {
+                    for(int i=0;i<quantidade_contatos;i++) {
+                        printf("Contato %d: %s \n",i+1,contatos[i].nome);
+                    }
+                }
+                break;
+            }
+            case 4: {
                 if(adicionar_atividade(&atividades, &quantidade_atividades)==1) {
                     int indice = quantidade_atividades - 1;
                     printf("[1] reuniao \n[2] trabalho individual \n[3] atividade de relaxamento \n");
@@ -188,7 +200,7 @@ int main(void) {
                 }
                 break;
             }
-            case 4: {
+            case 5: {
                 if(quantidade_atividades == 0) {
                     printf("nenhuma atividade cadastrada!\n");
                 } else {
@@ -222,7 +234,7 @@ int main(void) {
                 }
                 break;
             }
-        case 5: {
+        case 6: {
             if(quantidade_atividades == 0) {
                 printf("nenhuma atividade cadastrada!\n");
             } else {
@@ -264,28 +276,7 @@ int main(void) {
             }
             break;
         }
-        case 6:{
-            printf("salvando....\n");
-            if(salvar_arquivos(contatos,quantidade_contatos,atividades,quantidade_atividades)==1) {
-                printf("dados salvos!\n");
-            } else {
-                printf("erro ao salvar os dados!\n");
-            }
-            if(contatos != NULL) {
-                free(contatos);
-            }
-            if(atividades != NULL) {
-                for(int i=0;i<quantidade_atividades;i++) {
-                    if(atividades[i].participantes != NULL) {
-                        for(int j=0;j<atividades[i].quantidade_participantes;j++) {
-                            free(atividades[i].participantes[j]);
-                        }
-                        free(atividades[i].participantes);
-                    }
-                }
-                free(atividades);
-            }
-            printf("te vejo em breve!\n");
+        case 7:{
             sair = 1;
             break;
         }
@@ -293,5 +284,27 @@ int main(void) {
             printf("operacao invalida!\n");
         }
     }
+    printf("salvando....\n");
+    if(salvar_arquivos(contatos,quantidade_contatos,atividades,quantidade_atividades)==1) {
+        printf("dados salvos!\n");
+    } else {
+        printf("erro ao salvar os dados!\n");
+    }
+    if(contatos != NULL) {
+        free(contatos);
+    }
+    if(atividades != NULL) {
+        for(int i=0;i<quantidade_atividades;i++) {
+            if(atividades[i].participantes != NULL) {
+                for(int j=0;j<atividades[i].quantidade_participantes;j++) {
+                    free(atividades[i].participantes[j]);
+                }
+                free(atividades[i].participantes);
+            }
+        }
+        free(atividades);
+    }
+    Sleep(3000);
+    printf("te vejo em breve!\n");
     return 0;
 }
